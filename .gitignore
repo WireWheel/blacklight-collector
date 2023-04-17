@@ -79,3 +79,4 @@ build
 !__tests__/test-data/veteransunitedsession/*
 !__tests__/test-data/veteransunited-1.0.3/*
 !__tests__/test-pages/*
+.idea

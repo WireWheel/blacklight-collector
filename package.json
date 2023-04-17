@@ -1,5 +1,5 @@
 {
-  "name": "@themarkup/blacklight-collector",
+  "name": "@wirewheel/blacklight-collector",
   "version": "2.1.12",
   "description": "A real-time website privacy inspector.",
   "main": "build/index.js",
@@ -25,9 +25,6 @@
   },
   "author": "Surya Mattu",
   "license": "https://github.com/the-markup/blacklight-collector#licensing",
-  "bugs": {
-    "url": "https://github.com/the-markup/blacklight-collector/issues"
-  },
   "homepage": "https://github.com/the-markup/blacklight-collector#readme",
   "dependencies": {
     "@cliqz/adblocker-puppeteer": "^1.23.8",
