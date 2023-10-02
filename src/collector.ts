@@ -25,6 +25,7 @@ import { autoScroll, fillForms } from "./pptr-utils/interaction-utils";
 import { setupSessionRecordingInspector } from "./session-recording";
 import { setupThirdpartyTrackersInspector } from "./third-party-trackers";
 import { clearDir } from "./utils";
+import {retrieveSites} from "./SiteMapperService";
 export const collector = async ({
   inUrl,
   outDir = join(process.cwd(), "bl-tmp"),
@@ -220,7 +221,8 @@ export const collector = async ({
     });
 
   output.uri_dest = page.url();
-  duplicatedLinks = await getLinks(page);
+  duplicatedLinks = [...(await getLinks(page)), ...(await retrieveSites(page.url()))]
+
   REDIRECTED_FIRST_PARTY = parse(output.uri_dest);
   for (const link of dedupLinks(duplicatedLinks)) {
     const l = parse(link.href);

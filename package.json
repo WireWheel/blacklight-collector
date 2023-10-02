@@ -1,6 +1,6 @@
 {
   "name": "@wirewheel/blacklight-collector",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "A real-time website privacy inspector.",
   "main": "build/index.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "build": "run-s clean && run-s build:main",
     "build:main": "tsc -p tsconfig.json",
     "build:watch": "tsc --watch",
+    "example": "node example.js",
     "test": "jest",
     "test-server": "node ./config/test-server.js",
     "fix": "run-s fix:*",
@@ -32,6 +33,7 @@
     "lodash.samplesize": "^4.2.0",
     "puppeteer": "^19.7.5",
     "puppeteer-har": "^1.1.1",
+    "sitemapper": "^3.2.6",
     "stacktrace-js": "^2.0.1",
     "tldts": "^6.0.2",
     "tmp": "^0.1.0",
