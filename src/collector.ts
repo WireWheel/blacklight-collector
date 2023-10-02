@@ -221,13 +221,10 @@ export const collector = async ({
     });
 
   output.uri_dest = page.url();
-  duplicatedLinks = await getLinks(page);
-
-  const sitemapperSites = await retrieveSites(page.url())
-  let joinedDuplicatedLinks = [...duplicatedLinks, ...sitemapperSites]
+  duplicatedLinks = (await getLinks(page)).concat((await retrieveSites(page.url())))
 
   REDIRECTED_FIRST_PARTY = parse(output.uri_dest);
-  for (const link of dedupLinks(joinedDuplicatedLinks)) {
+  for (const link of dedupLinks(duplicatedLinks)) {
     const l = parse(link.href);
 
     if (REDIRECTED_FIRST_PARTY.domain === l.domain) {
@@ -272,7 +269,7 @@ export const collector = async ({
     await fillForms(page);
     await page.waitForTimeout(800);
     pageIndex++;
-    joinedDuplicatedLinks = joinedDuplicatedLinks.concat(await getLinks(page));
+    duplicatedLinks = duplicatedLinks.concat(await getLinks(page));
     await autoScroll(page);
   }
   await captureBrowserCookies(page, outDir);
@@ -286,7 +283,7 @@ export const collector = async ({
   }
 
 
-  const links = dedupLinks(joinedDuplicatedLinks);
+  const links = dedupLinks(duplicatedLinks);
   output.end_time = new Date();
   for (const link of links) {
     const l = parse(link.href);
