@@ -26,7 +26,7 @@ const makeFullSiteMapUrlString = (url: string): string => {
   return `${url}/sitemap.xml`
 }
 
-const convertToLinksForBlackLight = (sites: string[]): any[] => {
+const convertToLinksForBlackLight = (sites: string[]) => {
   return sites.map(site => {
     return {
       href: site
