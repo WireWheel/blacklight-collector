@@ -8,7 +8,7 @@ const logger = getLogger({ outDir, quiet });
 
 
 
-export const retrieveSites = async (url: string): Promise<any[]> => {
+export const retrieveSites = async (url: string): Promise<{href: string}[]> => {
   const siteMapper = new Sitemapper({
     url: makeFullSiteMapUrlString(url),
     timeout: 15000,
@@ -26,7 +26,7 @@ const makeFullSiteMapUrlString = (url: string): string => {
   return `${url}/sitemap.xml`
 }
 
-const convertToLinksForBlackLight = (sites: string[]) => {
+const convertToLinksForBlackLight = (sites: string[]): {href: string}[] => {
   return sites.map(site => {
     return {
       href: site

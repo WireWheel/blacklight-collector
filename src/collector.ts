@@ -221,7 +221,7 @@ export const collector = async ({
     });
 
   output.uri_dest = page.url();
-  duplicatedLinks = (await getLinks(page)).concat((await retrieveSites(page.url())))
+  duplicatedLinks = [...(await getLinks(page)), ...(await retrieveSites(page.url()))]
 
   REDIRECTED_FIRST_PARTY = parse(output.uri_dest);
   for (const link of dedupLinks(duplicatedLinks)) {
