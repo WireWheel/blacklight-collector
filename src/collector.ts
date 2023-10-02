@@ -25,6 +25,7 @@ import { autoScroll, fillForms } from "./pptr-utils/interaction-utils";
 import { setupSessionRecordingInspector } from "./session-recording";
 import { setupThirdpartyTrackersInspector } from "./third-party-trackers";
 import { clearDir } from "./utils";
+import {retrieveSites} from "./SiteMapperService";
 export const collector = async ({
   inUrl,
   outDir = join(process.cwd(), "bl-tmp"),
@@ -221,8 +222,12 @@ export const collector = async ({
 
   output.uri_dest = page.url();
   duplicatedLinks = await getLinks(page);
+
+  const sitemapperSites = await retrieveSites(page.url())
+  let joinedDuplicatedLinks = [...duplicatedLinks, ...sitemapperSites]
+
   REDIRECTED_FIRST_PARTY = parse(output.uri_dest);
-  for (const link of dedupLinks(duplicatedLinks)) {
+  for (const link of dedupLinks(joinedDuplicatedLinks)) {
     const l = parse(link.href);
 
     if (REDIRECTED_FIRST_PARTY.domain === l.domain) {
@@ -267,7 +272,7 @@ export const collector = async ({
     await fillForms(page);
     await page.waitForTimeout(800);
     pageIndex++;
-    duplicatedLinks = duplicatedLinks.concat(await getLinks(page));
+    joinedDuplicatedLinks = joinedDuplicatedLinks.concat(await getLinks(page));
     await autoScroll(page);
   }
   await captureBrowserCookies(page, outDir);
@@ -281,7 +286,7 @@ export const collector = async ({
   }
 
 
-  const links = dedupLinks(duplicatedLinks);
+  const links = dedupLinks(joinedDuplicatedLinks);
   output.end_time = new Date();
   for (const link of links) {
     const l = parse(link.href);
